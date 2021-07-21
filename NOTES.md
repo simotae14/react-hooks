@@ -253,3 +253,10 @@ Praticamente quando dobbiamo condividere lo `state` fra `siblings` e quindi
 dobbiamo trovare il
 ["lift the state"](https://reactjs.org/docs/lifting-state-up.html) ovvero il
 parent più prossimo condiviso fra i sibling per poi fare il `props drilling`.
+
+### 💯 colocating state
+
+A volte bisogna rimettere lo state semplicemente non più condiviso all'interno
+del component che lo usa e rimuoverlo dal lifting state. Sto procedimento di
+rimettere lo state al suo posto è detto
+[colocate state](https://kentcdodds.com/blog/state-colocation-will-make-your-react-app-faster)
