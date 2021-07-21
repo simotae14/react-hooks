@@ -205,3 +205,51 @@ React.useEffect(() => {
 
 in sto modo il nostro custom hook è super flessibile senza modificare il modo in
 cui viene usato.
+
+## Approfondimenti
+
+Se vuoi saperne di più sul flusso degli hooks e l'ordine in cui vengono
+chiamati, apri
+[`src/examples/hook-flow.png`](https://github.com/simotae14/react-hooks/blob/main/src/examples/hook-flow.png)
+ed
+[`src/examples/hook-flow.js`](https://github.com/simotae14/react-hooks/blob/main/src/examples/hook-flow.js)
+
+per intenderci `Run LayoutEffects` è come dire l'esecuzione degli `useEffect`,
+una volta che React ha aggiornato il DOM lo comunica al browser per fargli fare
+il `paint` dello schermo (es: se aggiungi con React un className questo è il
+momento in cui viene applicato al Dom). Il `Cleanup Effects` invece indica che
+React andrà a ripulire qualsiasi side Effect capitato dall'ultimo rendering. ed
+infine farà il `Run Effects` di quegli effetti che deve applicare in questo
+rendering.
+
+vedremo che dopo lo start del component verrà triggerato il `lazy initializer`
+dello state inoltre vediamo che gli `useEffect` vengono lanciati solo una volta
+<b>terminato il rendering</b> quindi una volta che è avvenuto il return del
+render. Gli `useEffect` infine vengono triggerati partendo da quello senza
+dependencies, per poi passare a quello che un array vuoto come dependencies ed
+infine a quello con dependencies dentro l'array
+
+nel caso in cui invece triggeriamo anche il rendering del Child component, non
+avremo + il lazy initializer dello useState poichè lo abbiamo già triggerato in
+precedenza. Ma prima ancora di triggerare lo start, useState e render end e
+useEffect del Child triggererà il render end del padre dato che quando viene
+renderizzato il figlio è solo un `React.createElement` non una chiamata della
+serie `Child`, il componente in sè verrà chiamato solo una volta che si procede
+al paint nel browser.
+
+Solo una volta renderizzato il Child verranno triggerati gli useEffect del
+Parent (prima i `cleanup`)
+
+se poi aggiorni il Child solo esso e i suoi useEffect verrano ritriggerati
+(compreso di cleanup)
+
+l'unmount infine viene triggerato solo quando togliamo il Child. Quindi farà il
+cleanup di ogni useEffect e anche nel parent faremo il cleanup dello useEffect
+senza dependencies e quello che ha come dependency lo showChild
+
+# Lifting state
+
+Praticamente quando dobbiamo condividere lo `state` fra `siblings` e quindi
+dobbiamo trovare il
+["lift the state"](https://reactjs.org/docs/lifting-state-up.html) ovvero il
+parent più prossimo condiviso fra i sibling per poi fare il `props drilling`.
