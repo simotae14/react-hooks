@@ -260,3 +260,15 @@ A volte bisogna rimettere lo state semplicemente non più condiviso all'interno
 del component che lo usa e rimuoverlo dal lifting state. Sto procedimento di
 rimettere lo state al suo posto è detto
 [colocate state](https://kentcdodds.com/blog/state-colocation-will-make-your-react-app-faster)
+
+come creare un array di null
+
+```javascript
+Array(9).fill(null)
+```
+
+- **Managed State:** State che definisci esplicitamente e che gestisci
+- **Derived State:** State che ti calcoli in base a dell'altro state
+
+📜 Per saperne di più sul **Derived State:**
+[Don't Sync State. Derive It!](https://kentcdodds.com/blog/dont-sync-state-derive-it)
