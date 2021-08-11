@@ -394,5 +394,39 @@ quindi conviene usare uno `state` cumulativo
 
 sto tipo di errori può essere risolto in maniera elegante da `useReducer`
 
-ErrorBoundary è un Class Component e forse uno dei pochi Component che dovrai tenere sotto forma di Classe
 
+## 💯 create an ErrorBoundary component
+ErrorBoundary è un Class Component e forse uno dei pochi Component che dovrai tenere sotto forma di Classe
+E' utile gestire tutti gli errori per non avere una pagina bianca di errore
+e lo possiamo fare con il component di React [Error Boundary](https://reactjs.org/docs/error-boundaries.html).
+Purtroppo ad oggi ancora non c'è modo di creare un ErrorBoundary con un functional component invece di una Classe.
+
+Quindi basta creare la propria versione di ErrorBoundary e wrapparci dentro il Component che da errori
+```javascript
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { error };
+  }
+
+  render() {
+    if (this.state.error) {
+      // You can render any custom fallback UI
+      return (
+        <div role="alert">
+          There was an error: <pre style={{whiteSpace: 'normal'}}>{this.state.error.message}</pre>
+        </div>
+      );
+    }
+
+    return this.props.children; 
+  }
+}
+```
+poi cosa wrappi nell'Error Boundary è come se mettessi un Try Catch al di fuori di ciò che è wrappato
+Però cerca di capire poi dove vuoi che Error Boundary vada a renderizzare il messaggio di errore, esempio se wrappi troppo all'esterno in caso di errore mostrerai solo il messaggio senza alcun layout
