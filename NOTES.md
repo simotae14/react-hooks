@@ -480,3 +480,11 @@ una volta cliccato il component dovremmo usare una prop `onReset` di `ErrorBound
   <ErrorBoundary onReset={handleReset} FallbackComponent={ErrorFallback}>
 ```
 in sto modo se clicco resetto il nome
+
+### use resetKeys per resettare ErrorBoundary
+`react-error-boundary` supporta il reset usando la prop`resetKeys`.
+Dentro di essa puoi passare un array di valori e se `ErrorBoundary` è in uno stato di errore e uno di questi valori cambia, allora verrà resettato anche error boundary.
+es:
+```javascript
+<ErrorBoundary resetKeys={[pokemonName]} onReset={handleReset} FallbackComponent={ErrorFallback}>
+```
