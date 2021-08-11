@@ -455,3 +455,28 @@ import {ErrorBoundary} from 'react-error-boundary'
     <PokemonInfo pokemonName={pokemonName} />
   </ErrorBoundary> 
 ```
+### reset the error boundary
+Vediamo come resettare lo state dell'ErrorBoundary senza smontare anche i suoi children come fatto sinora con la `key`
+
+possiamo usare la funzione `resetErrorBoundary` di `react-error-boundary` e passarla al `ErrorFallback` component per resettare lo state di `ErrorBoundary` cliccando su un bottone try again
+```javascript
+function ErrorFallback({error, resetErrorBoundary}) {
+  return (
+    <div role="alert">
+      There was an error: <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
+  );
+}
+```
+
+una volta cliccato il component dovremmo usare una prop `onReset` di `ErrorBoundary` per resettare lo state del nome pokemon
+
+```javascript
+  function handleReset() {
+    setPokemonName('')
+  }
+  ...
+  <ErrorBoundary onReset={handleReset} FallbackComponent={ErrorFallback}>
+```
+in sto modo se clicco resetto il nome
