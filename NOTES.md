@@ -272,3 +272,40 @@ Array(9).fill(null)
 
 📜 Per saperne di più sul **Derived State:**
 [Don't Sync State. Derive It!](https://kentcdodds.com/blog/dont-sync-state-derive-it)
+
+# Interagire col DOM, useRef e useEffect
+
+Gli elementi del DOM vengono creati solo col `ReactDOM.render`
+Col `ref` quindi possiamo chiedere a React di avere accesso ad un nodo del DOM prima che venga renderizzato
+
+ES:
+```javascript
+function MyDiv() {
+  const myDivRef = React.useRef()
+  React.useEffect(() => {
+    const myDiv = myDivRef.current
+    // myDiv is the div DOM node!
+    console.log(myDiv)
+  }, [])
+  return <div ref={myDivRef}>hi</div>
+}
+```
+
+Una volta che viene lanciato il `render` il Component è detto <b>montato</b>, ed in quel momento viene triggerato lo `useEffect` e quindi il `ref` prende il suo valore `current`
+Se accedi al current senza useEffect otterrai undefined
+
+Se smonti poi il Component conviene rimuovere gli event handler sui nodi referenziati
+es:
+```javascript
+  React.useEffect(() => {
+    const tiltNode = tiltRef.current
+    VanillaTilt.init(tiltNode, {
+      max: 25,
+      speed: 400,
+      glare: true,
+      'max-glare': 0.5,
+    })
+    return () => tiltNode.vanillaTilt.destroy()
+  }, [])
+```
+ritorna il cleanup dell'evento, perchè non esiste un Garbage Collector degli eventi e quindi sarebbe sempre referenziata
