@@ -374,7 +374,25 @@ in questo caso intercetta SOLO l'errore della Fetch
 ### 💯 use a status
 A volte quando hai a che fare con diversi return da dare in base al valore raggiunto da una fetch conviene usare uno `status` per rappresentare i vari casi in maniera + semplice
 
+### 💯 store the state in an object
+Conviene salvare lo Status e la response della Fetch in uno stesso oggetto perchè ogni setState provoca un rerendering del component 
+inoltre se invertissi i set
+```javascript
+setStatus('resolved')
+setPokemon(pokemon)
+```
+avremmo un errore poichè cercheremmo di renderizzare il risultato ricerca senza averlo ancora nello state
 
+quindi conviene usare uno `state` cumulativo
+```javascript
+  const [state, setState] = React.useState({
+    status: 'idle',
+    pokemon: null,
+    error: null
+  })
+```
+
+sto tipo di errori può essere risolto in maniera elegante da `useReducer`
 
 ErrorBoundary è un Class Component e forse uno dei pochi Component che dovrai tenere sotto forma di Classe
 
