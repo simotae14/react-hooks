@@ -430,3 +430,18 @@ class ErrorBoundary extends React.Component {
 ```
 poi cosa wrappi nell'Error Boundary è come se mettessi un Try Catch al di fuori di ciò che è wrappato
 Però cerca di capire poi dove vuoi che Error Boundary vada a renderizzare il messaggio di errore, esempio se wrappi troppo all'esterno in caso di errore mostrerai solo il messaggio senza alcun layout
+
+### 💯 re-mount the error boundary
+una volta sollevato un errore serve ripulire lo state altrimenti ad ogni tentativo successivo, anche corretto, vedremo sempre l'errore
+Dobbiamo quindi ripulire l'error dentro ErrorBoundary
+
+Lo facciamo mediante la prop `key`, che ti permette di resettare lo state dentro ad un component
+Lo stesso principio delle key delle liste, deve essere un valore univoco
+```javascript
+<ErrorBoundary FallbackComponent={ErrorFallback} key={pokemonName}>
+  <PokemonInfo pokemonName={pokemonName} />
+</ErrorBoundary>      
+```
+in sto modo resetti lo state di Error Boundary, in sto modo continua a montare e smontare ErrorBoundary ogni volta che pokemonName cambia
+
+
