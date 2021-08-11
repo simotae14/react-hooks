@@ -350,9 +350,26 @@ React.useEffect(() => {
 })
 ```
 
+### 💯 handle errors in a Fetch
+Per gestire gli errori di una Promise lo possiamo fare in 2 modi
+1. col `catch`
+```javascript
+// option 1: using .catch
+fetchPokemon(pokemonName)
+  .then(pokemon => setPokemon(pokemon))
+  .catch(error => setError(error))
+```
+che però prende gli errori sia della `fetch` che dei `setState` all'interno della chiamata
 
-
-
+2. passando un secondo argomento al `.then`
+```javascript
+// option 2: using the second argument to .then
+fetchPokemon(pokemonName).then(
+  pokemon => setPokemon(pokemon),
+  error => setError(error),
+)
+```
+in questo caso intercetta SOLO l'errore della Fetch
 
 
 ErrorBoundary è un Class Component e forse uno dei pochi Component che dovrai tenere sotto forma di Classe
