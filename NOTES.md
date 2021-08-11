@@ -444,4 +444,14 @@ Lo stesso principio delle key delle liste, deve essere un valore univoco
 ```
 in sto modo resetti lo state di Error Boundary, in sto modo continua a montare e smontare ErrorBoundary ogni volta che pokemonName cambia
 
+### Usare la libreria react-error-boundary
+invece di crearsi un proprio ErrorBoundary si può usare una libreria [`react-error-boundary`](https://github.com/bvaughn/react-error-boundary).
 
+E' molto semplice usarla
+```javascript
+import {ErrorBoundary} from 'react-error-boundary'
+....
+  <ErrorBoundary FallbackComponent={ErrorFallback} key={pokemonName}>
+    <PokemonInfo pokemonName={pokemonName} />
+  </ErrorBoundary> 
+```
