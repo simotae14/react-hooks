@@ -309,3 +309,51 @@ es:
   }, [])
 ```
 ritorna il cleanup dell'evento, perchè non esiste un Garbage Collector degli eventi e quindi sarebbe sempre referenziata
+è lo stesso che faremmo col `componentWillUnmount` in un Class Component
+```javascript
+componentWillUnmount() {
+  this.tiltRef.current.vanillaTilt.destroy()
+}
+```
+
+# useEffect: HTTP requests
+
+le Richieste HTTP sono uno dei <b>Side Effects</b> quindi vanno gestite con `useEffect`
+
+Una cosa importante da ricordare sull'hook `useEffect` è che non puoi restituire nulla se non una funzione di cleanup. Questa regola ha implicazioni riguardo alla sintassi dell'async/await
+```javascript
+// this does not work, don't do this:
+React.useEffect(async () => {
+  const result = await doSomeAsyncThing()
+  // do something with the result
+})
+Questo difatti non funzionerebbe perchè una funzione async in automatico restituisce una Promise (anche se non fai il return esplicito di nulla), è dovuta alla Sintassi di `async/await`. Un modo per aggirarlo è definire dentro allo useEffect una funzione async che poi invoco sempre dentro lo useEffect
+
+```javascript
+React.useEffect(() => {
+  async function effect() {
+    const result = await doSomeAsyncThing()
+    // do something with the result
+  }
+  effect()
+})
+```
+in sto modo non restituisci nulla nello useEffect se non al massimo la funzione di cleanup
+
+Un altro modo è creare una funzione esterna che racchiuda tutto il codice async e chiamarla usando il `.then` dentro lo useEffect invece di usare la sintassi `async/await`
+
+```javascript
+React.useEffect(() => {
+  doSomeAsyncThing().then(result => {
+    // do something with the result
+  })
+})
+```
+
+
+
+
+
+
+ErrorBoundary è un Class Component e forse uno dei pochi Component che dovrai tenere sotto forma di Classe
+
